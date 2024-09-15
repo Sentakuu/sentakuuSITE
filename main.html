@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EA WEBSITE</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f4f5;
+        }
+        header {
+            background-color: #ffffff;
+            padding: 10px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00a2ff;
+        }
+        .logo img {
+            max-height: 50px;  /* Upravte podle potřeby */
+            width: auto;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 20px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #393b3d;
+        }
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+        .category {
+            width: 48%;
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .game-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .game-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 20px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #00a2ff;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        .friend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .friend-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+        .discord-item {
+            text-align: center;
+        }
+        #ea-store {
+            display: none;
+            text-align: center;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 40px;
+        }
+        .language-switch {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #00a2ff;
+            color: #ffffff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .login-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .login-box input {
+            margin: 10px 0;
+            padding: 5px;
+        }
+
+        .login-box button {
+            background-color: #00a2ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .blurred {
+            filter: blur(5px);
+        }
+
+        .success-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            z-index: 2000;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="loginOverlay" class="login-overlay">
+        <div class="login-box">
+            <h2 data-lang-cs="Přihlášení" data-lang-en="Login">Přihlášení</h2>
+            <input type="password" id="passwordInput" placeholder="Heslo">
+            <button id="loginButton" data-lang-cs="Přihlásit se" data-lang-en="Login">Přihlásit se</button>
+        </div>
+    </div>
+
+    <div id="successPopup" class="success-popup">
+        <p data-lang-cs="Přihlášení úspěšné!" data-lang-en="Login successful!">Přihlášení úspěšné!</p>
+    </div>
+
+    <div id="mainContent" class="blurred">
+        <header>
+            <div class="container">
+                <nav>
+                    <div class="logo">
+                        <img src="title.jpg" alt="Logo EA WEBSITE" id="logo-image">
+                    </div>
+                    <ul class="nav-links">
+                        <li><a href="#" onclick="showMainContent()" data-lang-cs="PROZKOUMAT" data-lang-en="EXPLORE">PROZKOUMAT</a></li>
+                        <li><a href="#" data-lang-cs="VYTVOŘIT" data-lang-en="CREATE">VYTVOŘIT</a></li>
+                        <li><a href="#" onclick="showEAStore()" data-lang-cs="EA-OBCHOD" data-lang-en="EA-STORE">EA-OBCHOD</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <div class="container">
+            <div id="main-content" class="main-content">
+                <div class="category">
+                    <h2 data-lang-cs="Hry" data-lang-en="Games">Hry</h2>
+                    <div class="game-item">
+                        <img src="https://via.placeholder.com/100" alt="Hra 1" class="game-image">
+                        <div>
+                            <h3>Pirates ARR</h3>
+                            <p data-lang-cs="You wouldnt steal a car, so why would you steal a ship?" data-lang-en="You wouldn't steal a car, so why would you steal a ship?">You wouldnt steal a car, so why would you steal a ship?</p>
+                            <a href="https://www.sentakuudll.wordpress.com" class="button" target="_blank" data-lang-cs="Hrát" data-lang-en="Play">Hrát</a>
+                        </div>
+                    </div>
+                    <div class="game-item">
+                        <img src="https://via.placeholder.com/100" alt="Hra 2" class="game-image">
+                        <div>
+                            <h3>SDS</h3>
+                            <p data-lang-cs="Sentakuu Driving Simulator" data-lang-en="Sentakuu Driving Simulator">Sentakuu Driving Simulator</p>
+                            <a href="#" class="button" data-lang-cs="Hrát" data-lang-en="Play">Hrát</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="category">
+                    <h2 data-lang-cs="Sociální" data-lang-en="Social">Sociální</h2>
+                    <div class="friend-item">
+                        <img src="https://via.placeholder.com/50" alt="Přítel 1" class="friend-avatar">
+                        <div>
+                            <h3>XIISonyIIX</h3>
+                            <a href="#" class="button" data-lang-cs="add best friend" data-lang-en="add best friend">add best friend</a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <img src="https://via.placeholder.com/50" alt="Přítel 2" class="friend-avatar">
+                        <div>
+                            <h3>Sartiee</h3>
+                            <a href="#" class="button" data-lang-cs="ADD AND POST INFO ONLINE JK" data-lang-en="ADD AND POST INFO ONLINE JK">ADD AND POST INFO ONLINE JK</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="category">
+                    <h2 data-lang-cs="MY DISCORD" data-lang-en="MY DISCORD">MY DISCORD</h2>
+                    <div class="discord-item">
+                        <a href="https://www.discord.gg/pnQTEyTmFc" class="button" target="_blank" data-lang-cs="Připojit se k Discordu" data-lang-en="Join Discord">Připojit se k Discordu</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="language-switch" id="languageSwitch">EN</div>
+
+        <script>
+            let currentLanguage = 'cs';
+            const languageSwitch = document.getElementById('languageSwitch');
+            const loginOverlay = document.getElementById('loginOverlay');
+            const passwordInput = document.getElementById('passwordInput');
+            const loginButton = document.getElementById('loginButton');
+            const mainContent = document.getElementById('mainContent');
+            const successPopup = document.getElementById('successPopup');
+
+            const correctPassword = 'Sentakuu';
+
+            const translations = {
+                cs: {
+                    explore: "PROZKOUMAT",
+                    create: "VYTVOŘIT",
+                    eaStore: "EA-OBCHOD",
+                    games: "Hry",
+                    play: "Hrát",
+                    social: "Sociální",
+                    addBestFriend: "přidat nejlepšího přítele",
+                    addAndPostInfo: "PŘIDAT A ZVEŘEJNIT INFO ONLINE LOL",
+                    myDiscord: "MŮJ DISCORD",
+                    joinDiscord: "Připojit se k Discordu",
+                    pirateMotto: "Neukradl bys auto, tak proč bys kradl loď?",
+                    drivingSimulator: "Sentakuu Simulátor Řízení",
+                    login: "Přihlášení",
+                    loginButton: "Přihlásit se",
+                    incorrectPassword: "Nesprávné heslo!",
+                    loginSuccessful: "Přihlášení úspěšné!"
+                },
+                en: {
+                    explore: "EXPLORE",
+                    create: "CREATE",
+                    eaStore: "EA-STORE",
+                    games: "Games",
+                    play: "Play",
+                    social: "Social",
+                    addBestFriend: "add best friend",
+                    addAndPostInfo: "ADD AND POST INFO ONLINE JK",
+                    myDiscord: "MY DISCORD",
+                    joinDiscord: "Join Discord",
+                    pirateMotto: "You wouldn't steal a car, so why would you steal a ship?",
+                    drivingSimulator: "Sentakuu Driving Simulator",
+                    login: "Login",
+                    loginButton: "Login",
+                    incorrectPassword: "Incorrect password!",
+                    loginSuccessful: "Login successful!"
+                }
+            };
+
+            function updateLanguage() {
+                document.querySelectorAll('[data-lang-cs]').forEach(el => {
+                    el.textContent = el.getAttribute(`data-lang-${currentLanguage}`);
+                });
+                languageSwitch.textContent = currentLanguage === 'cs' ? 'EN' : 'CS';
+                document.querySelector('.login-box h2').textContent = translations[currentLanguage].login;
+                loginButton.textContent = translations[currentLanguage].loginButton;
+                successPopup.querySelector('p').textContent = translations[currentLanguage].loginSuccessful;
+            }
+
+            function checkPassword() {
+                if (passwordInput.value === correctPassword) {
+                    loginOverlay.style.display = 'none';
+                    showSuccessPopup();
+                    setTimeout(() => {
+                        successPopup.style.display = 'none';
+                        mainContent.classList.remove('blurred');
+                    }, 2000);
+                } else {
+                    alert(translations[currentLanguage].incorrectPassword);
+                }
+            }
+
+            function showSuccessPopup() {
+                successPopup.style.display = 'block';
+            }
+
+            loginButton.addEventListener('click', checkPassword);
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkPassword();
+                }
+            });
+
+            languageSwitch.addEventListener('click', () => {
+                currentLanguage = currentLanguage === 'cs' ? 'en' : 'cs';
+                updateLanguage();
+            });
+
+            function showEAStore() {
+                window.location.href = 'ea-store.html';
+            }
+
+            function showMainContent() {
+                // Pokud je potřeba, přidejte zde kód pro zobrazení hlavního obsahu
+            }
+
+            updateLanguage(); // Inicializace jazyka při načtení stránky
+        </script>
+    </div>
+</body>
+</html>
+
+
